@@ -1,13 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
+
 package com.mycompany.simuladorascensores;
 
-/**
- *
- * @author Nicolas
- */
-public class PlanificadorDelPiso {
+
+public class PlanificadorDelPiso extends Thread {
+    Persona[] cola_espera;
+    int piso_planificando;
+    String numero;
     
+    PlanificadorDelPiso(String numero, int piso){
+        this.cola_espera = new Persona[10];
+        this.piso_planificando = piso;
+        this.numero = numero;
+    }
+    
+    @Override
+    public void run() {
+        
+    }
 }
