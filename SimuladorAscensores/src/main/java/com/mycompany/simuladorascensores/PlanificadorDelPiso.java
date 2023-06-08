@@ -2,16 +2,17 @@
 
 package com.mycompany.simuladorascensores;
 
-import java.util.PriorityQueue;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 public class PlanificadorDelPiso extends Thread {
-    PriorityQueue<Persona> cola_espera;
+    Queue<Persona> cola_espera;
     int piso_planificando;
     String numero;
     
     PlanificadorDelPiso(String numero, int piso){
-        this.cola_espera = new PriorityQueue<>();
+        this.cola_espera = new LinkedList<>();
         this.piso_planificando = piso;
         this.numero = numero;
     }

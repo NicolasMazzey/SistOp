@@ -3,6 +3,7 @@
 package com.mycompany.simuladorascensores;
 
 import static com.mycompany.simuladorascensores.SimuladorAscensores.maxPisos;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 
@@ -13,14 +14,18 @@ public class Ascensor extends Thread {
     int pisoActual;
     boolean mirando_arriba;
     String numero;
+    boolean invertido; // para el comparador
     
     Ascensor(String numero){
-        this.Carga = new PriorityQueue<>();
+        Comparator<Persona> comparador;
+        comparador = new ComparadorPersonas();
+        this.Carga = new PriorityQueue<>(comparador.reversed());
         this.peso = 0;
         this.cantPersonas = 0;
         this.pisoActual = 0;
         this.mirando_arriba = true;
         this.numero = numero;
+        this.invertido = true;
     }
     
     @Override
@@ -47,10 +52,17 @@ public class Ascensor extends Thread {
                             //wait
                             Carga.peek().enAscensor = true;
                             //print con la persona que sube al ascensor
-                            /*
-                            Reajustar las prioridades de la cola en funcion al
-                            piso y segun para donde quedo mirando.
-                            */
+                            if (!mirando_arriba && invertido){
+                                Comparator<Persona> comparador;
+                                comparador = new ComparadorPersonas();
+                                PriorityQueue<Persona> Carga2;
+                                Carga2 = new PriorityQueue<>(comparador);
+                                Carga2.addAll(Carga);
+                                Carga = Carga2;
+                                invertido = false;
+                            }
+                            //falta el otro caso de invertir las prioridades
+                            
                             //signal
                         }
                     } else {
