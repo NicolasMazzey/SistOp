@@ -3,12 +3,11 @@
 package com.mycompany.simuladorascensores;
 
 import static com.mycompany.simuladorascensores.SimuladorAscensores.maxPisos;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 
 
 public class Ascensor extends Thread {
-    PriorityQueue<Persona> Carga; 
+    LinkedList<Persona> Carga; 
     int peso;
     int cantPersonas;
     int pisoActual;
@@ -17,9 +16,7 @@ public class Ascensor extends Thread {
     boolean invertido; // para el comparador
     
     Ascensor(String numero){
-        Comparator<Persona> comparador;
-        comparador = new ComparadorPersonas();
-        this.Carga = new PriorityQueue<>(comparador.reversed());
+        this.Carga = new LinkedList();
         this.peso = 0;
         this.cantPersonas = 0;
         this.pisoActual = 0;
@@ -35,41 +32,112 @@ public class Ascensor extends Thread {
             if (!Carga.isEmpty()) {
                 //proceso Activo
                 Persona primero = Carga.peek();
-                //signal 
                 if (primero.destino > pisoActual) {
                     this.mirando_arriba = true;
                     pisoActual += 1;
                 } else {
                     if (primero.destino == pisoActual) {
                         if (primero.enAscensor){
-                            //wait
                             cantPersonas -= 1;
                             peso = peso - primero.peso;
+                            System.out.println("Baja " + primero.nombre + " en el piso " + this.pisoActual);
                             Carga.remove(primero);
-                            //print con la persona que se bajo
-                            //signal 
                         } else {
-                            //wait
+                            System.out.println("Sube " + primero.nombre + " en el piso " + this.pisoActual);
                             Carga.peek().enAscensor = true;
-                            //print con la persona que sube al ascensor
-                            if (!mirando_arriba && invertido){
-                                Comparator<Persona> comparador;
-                                comparador = new ComparadorPersonas();
-                                PriorityQueue<Persona> Carga2;
-                                Carga2 = new PriorityQueue<>(comparador);
-                                Carga2.addAll(Carga);
-                                Carga = Carga2;
-                                invertido = false;
+                            if (Carga.size() > 1) {
+                                Persona p = Carga.get(1);
+                                Persona p2 = Carga.get(2);
+                                boolean aca = false;
+                                if (mirando_arriba) {       //rezen para que ande porque me quedo largo
+                                    boolean mayorPA = true;
+                                    while (Carga.get(Carga.indexOf(p2)) != null && !aca && mayorPA) {
+                                        if (p2.enAscensor) {
+                                            if (p2.destino >= pisoActual){
+                                                if (p.destino > p2.destino) {
+                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                } else {
+                                                    aca = true;
+                                                }
+                                            } else {
+                                                mayorPA = false;
+                                            }
+                                        } else {
+                                            if (p2.inicio >= pisoActual){
+                                                if (p.destino > p2.inicio) {
+                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                } else {
+                                                    aca = true;
+                                                }
+                                            } else {
+                                                mayorPA = false;
+                                            }
+                                        }
+                                    }
+                                    while (Carga.get(Carga.indexOf(p2)) != null && !aca && !mayorPA) {
+                                        if (p2.enAscensor) {
+                                            if (p.destino > p2.destino) {
+                                                p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                            } else {
+                                                aca = true;
+                                            }
+                                        } else {
+                                            if (p.destino > p2.inicio) {
+                                                p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                            } else {
+                                                aca = true;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    boolean menorPA = true;
+                                    while (Carga.get(Carga.indexOf(p2)) != null && !aca && menorPA) {
+                                        if (p2.enAscensor) {
+                                            if (p2.destino <= pisoActual){
+                                                if (p.destino < p2.destino) {
+                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                } else {
+                                                    aca = true;
+                                                }
+                                            } else {
+                                                menorPA = false;
+                                            }
+                                        } else {
+                                            if (p2.inicio <= pisoActual){
+                                                if (p.destino < p2.inicio) {
+                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                } else {
+                                                    aca = true;
+                                                }
+                                            } else {
+                                                menorPA = false;
+                                            }
+                                        }
+                                    }
+                                    while (Carga.get(Carga.indexOf(p2)) != null && !aca && !menorPA) {
+                                        if (p2.enAscensor) {
+                                            if (p.destino < p2.destino) {
+                                                p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                            } else {
+                                                aca = true;
+                                            }
+                                        } else {
+                                            if (p.destino < p2.inicio) {
+                                                p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                            } else {
+                                                aca = true;
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                            //falta el otro caso de invertir las prioridades
-                            
-                            //signal
                         }
                     } else {
                         this.mirando_arriba = false;
                         pisoActual -= 1;
                     }
                 }
+                //signal
             } else {
                 //signal
                 //proceso de inactividad
