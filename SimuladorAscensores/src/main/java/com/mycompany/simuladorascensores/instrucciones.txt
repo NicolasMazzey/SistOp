@@ -1,0 +1,15 @@
+CantidadDeAscensores:4
+CantidadDePisos:10
+
+|Nombre de persona|peso|piso_requerido|piso _pedido|tiempo|
+Nicolas|78|5|9|10
+Jose|70|2|6|10
+Florencia|62|0|8|10
+Sofia|65|5|7|10
+Ricardo|82|2|10|10
+Lucia|73|7|1|10
+Manuel|95|0|5|10
+Sebastian|68|10|0|10
+Maria|55|8|3|10
+Fernando|88|4|6|10
+Bruno|100|2|7|10
