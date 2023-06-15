@@ -5,24 +5,27 @@ import java.util.PriorityQueue;
 import java.util.concurrent.Semaphore;
 
 public class SimuladorAscensores {
+
     static volatile int maxPisos;
     static volatile int Momento = 0;
-    static volatile PriorityQueue<Ascensor> listaDeAscensores; 
-    
+    static volatile PriorityQueue<Ascensor> listaDeAscensores;
+
     static Semaphore SemaforoAscensor = new Semaphore(1);
     //static Semaphore SemaforoPlanificador = new Semaphore(1);
-    
+
     public static void main(String[] args) throws InterruptedException {
-        
+
         ComparadorAscensores CA = new ComparadorAscensores();
         listaDeAscensores = new PriorityQueue<>(CA);
 
-       /*Ascensor a1 = new Ascensor("1");
+        /*
+        Ascensor a1 = new Ascensor("1");
         Ascensor a2 = new Ascensor("2");
         listaDeAscensores.add(a1);
         listaDeAscensores.add(a2);             
         
-        System.out.println(listaDeAscensores);*/
+        System.out.println(listaDeAscensores);
+        */
         
         // Primer archivo
         System.out.println("---------------");
@@ -36,6 +39,7 @@ public class SimuladorAscensores {
         String instrucciones = palabras[3];
         int ascensores_disponibles;
         int pisos_edificio;
+        List<Persona> lista_personas = new ArrayList<>(); // Lista para almacenar las personas creadas
         for (String s : palabras) {
             if (s == Cant_ascensores) {
                 char identificador = ':';
@@ -95,23 +99,22 @@ public class SimuladorAscensores {
                     piso_destino = Integer.parseInt(scanner.next());
                     tiempo = Integer.parseInt(scanner.next());
                     //String data = scanner.next();
-
                     //System.out.println(data);
+                    
+                    Persona person = new Persona(nombre_persona, piso_destino, piso_origen, peso_persona, tiempo);
+                    // Agregar la persona a la lista
+                    lista_personas.add(person);
                 }
 
                 scanner.close(); // Cerrar el Scanner
 
-                //persona = new Persona();
-                //System.out.println(s);
+                //Despues de que este todo inicializado y corriendo
+                //va contando los momentos cada 1 seg "arbitrario"
+                for (int i = 0; i < 5; i++) {
+                    Momento += 1;
+                    Thread.sleep(1000);
+                }
             }
-        }
-        
-        //Despues de que este todo inicializado y corriendo
-        //va contando los momentos cada 1 seg "arbitrario"
-        
-        for(int i = 0; i <5 ; i++ ){
-           Momento += 1;
-           Thread.sleep(1000);
         }
     }
 }
