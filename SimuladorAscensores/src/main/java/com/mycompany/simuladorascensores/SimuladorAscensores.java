@@ -2,12 +2,15 @@ package com.mycompany.simuladorascensores;
 
 import java.util.*;
 import java.util.PriorityQueue;
+import java.util.concurrent.Semaphore;
 
 public class SimuladorAscensores {
     static volatile int maxPisos;
-
-    static volatile PriorityQueue<Ascensor> listaDeAscensores; 
     static volatile int Momento = 0;
+    static volatile PriorityQueue<Ascensor> listaDeAscensores; 
+    
+    static Semaphore SemaforoAscensor = new Semaphore(1);
+    //static Semaphore SemaforoPlanificador = new Semaphore(1);
     
     public static void main(String[] args) throws InterruptedException {
         
