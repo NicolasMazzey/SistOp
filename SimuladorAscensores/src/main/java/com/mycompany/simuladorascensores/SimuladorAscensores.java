@@ -6,9 +6,10 @@ import java.util.PriorityQueue;
 public class SimuladorAscensores {
     static volatile int maxPisos;
 
-    static volatile PriorityQueue<Ascensor> listaDeAscensores;    
+    static volatile PriorityQueue<Ascensor> listaDeAscensores; 
+    static volatile int Momento = 0;
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         
         ComparadorAscensores CA = new ComparadorAscensores();
         listaDeAscensores = new PriorityQueue<>(CA);
@@ -100,6 +101,14 @@ public class SimuladorAscensores {
                 //persona = new Persona();
                 //System.out.println(s);
             }
+        }
+        
+        //Despues de que este todo inicializado y corriendo
+        //va contando los momentos cada 1 seg "arbitrario"
+        
+        for(int i = 0; i <5 ; i++ ){
+           Momento += 1;
+           Thread.sleep(1000);
         }
     }
 }

@@ -1,16 +1,17 @@
 package com.mycompany.simuladorascensores;
 
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 public class PlanificadorDelPiso extends Thread {
 
-    LinkedList<Persona> cola_espera;
+    PriorityQueue<Persona> cola_espera;
     int piso_planificando;
     String numero;
 
     PlanificadorDelPiso(String numero, int piso) {
-        this.cola_espera = new LinkedList<>();
+        ComparadorPlanificador CP = new ComparadorPlanificador();
+        this.cola_espera = new PriorityQueue<>(CP);
         this.piso_planificando = piso;
         this.numero = numero;
     }
@@ -18,9 +19,8 @@ public class PlanificadorDelPiso extends Thread {
     @Override
     public void run() {
         while (true) {
-            if (!cola_espera.isEmpty()) {
-                
-                //Wait
+            if (!cola_espera.isEmpty() && cola_espera.peek().momento <= SimuladorAscensores.Momento) {               
+                //Wait                                                                                  
                 boolean salir = false;
                 Persona p = cola_espera.poll();
                 Ascensor AElejido = SimuladorAscensores.listaDeAscensores.peek();
