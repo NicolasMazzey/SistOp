@@ -25,8 +25,7 @@ public class SimuladorAscensores {
         listaDeAscensores.add(a2);             
         
         System.out.println(listaDeAscensores);
-        */
-        
+         */
         // Primer archivo
         System.out.println("---------------");
         System.out.println("Primer archivo");
@@ -100,21 +99,28 @@ public class SimuladorAscensores {
                     tiempo = Integer.parseInt(scanner.next());
                     //String data = scanner.next();
                     //System.out.println(data);
-                    
+
                     Persona person = new Persona(nombre_persona, piso_destino, piso_origen, peso_persona, tiempo);
                     // Agregar la persona a la lista
                     lista_personas.add(person);
                 }
 
                 scanner.close(); // Cerrar el Scanner
-
+                
+                /*
                 //Despues de que este todo inicializado y corriendo
                 //va contando los momentos cada 1 seg "arbitrario"
                 for (int i = 0; i < 5; i++) {
                     Momento += 1;
                     Thread.sleep(1000);
                 }
+                */
             }
         }
-    }
+
+        // Imprimir los elementos de la lista
+        for (Persona persona : lista_personas) {
+            System.out.println(persona.getNombre()+persona.getInicio()+ persona.getDestino()+persona.getPeso()+persona.getMomento());
+        }
+    }//CierreMAIN
 }
