@@ -51,7 +51,7 @@ public class PlanificadorDelPiso extends Thread {
                     AElejido.cantPersonas += 1;
 
                     if (AElejido.Carga.size() > 1) {
-                        Persona p2 = AElejido.Carga.get(2);
+                        Persona p2 = AElejido.Carga.get(2);    
                         boolean aca = false;
                         if (AElejido.mirando_arriba) {       //esto es lo mismo que en el ascensor pero la persona p se esta
                             boolean mayorPA = true;          //cargando en vez de bajandose.
@@ -134,7 +134,11 @@ public class PlanificadorDelPiso extends Thread {
                                 }
                             }
                         }
+                        AElejido.Carga.remove(p);
+                        AElejido.Carga.add(AElejido.Carga.indexOf(p2), p);
                     }
+                    System.out.println("Planificador " + this.numero + " asgino cargar a " + p.nombre + 
+                                       " al Ascensor " + AElejido.numero + " en el piso " + p.inicio);
                 }
                 //signal
 

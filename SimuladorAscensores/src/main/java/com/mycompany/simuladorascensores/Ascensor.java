@@ -13,7 +13,6 @@ public class Ascensor extends Thread {
     int pisoActual;
     boolean mirando_arriba;
     String numero;
-    boolean invertido; // para el comparador
     
     Ascensor(String numero){
         this.Carga = new LinkedList();
@@ -22,7 +21,6 @@ public class Ascensor extends Thread {
         this.pisoActual = 0;
         this.mirando_arriba = true;
         this.numero = numero;
-        this.invertido = true;
     }
     
     @Override
@@ -40,22 +38,24 @@ public class Ascensor extends Thread {
                         if (primero.enAscensor){
                             cantPersonas -= 1;
                             peso = peso - primero.peso;
-                            System.out.println("Baja " + primero.nombre + " en el piso " + this.pisoActual);
+                            System.out.println("Baja " + primero.nombre + " en el piso " + this.pisoActual +
+                                               " del Ascensor " + this.numero);
                             Carga.remove(primero);
                         } else {
-                            System.out.println("Sube " + primero.nombre + " en el piso " + this.pisoActual);
+                            System.out.println("Sube " + primero.nombre + " en el piso " + this.pisoActual +
+                                               " del Ascensor " + this.numero);
                             Carga.peek().enAscensor = true;
                             if (Carga.size() > 1) {
-                                Persona p = Carga.get(1);
+                                Persona p = Carga.get(1);   
                                 Persona p2 = Carga.get(2);
                                 boolean aca = false;
-                                if (mirando_arriba) {       //rezen para que ande porque me quedo largo
+                                if (mirando_arriba) {      
                                     boolean mayorPA = true;
                                     while (Carga.get(Carga.indexOf(p2)) != null && !aca && mayorPA) {
                                         if (p2.enAscensor) {
                                             if (p2.destino >= pisoActual){
                                                 if (p.destino > p2.destino) {
-                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    p2 = Carga.get(Carga.indexOf(p2)+1);
                                                 } else {
                                                     aca = true;
                                                 }
@@ -130,6 +130,8 @@ public class Ascensor extends Thread {
                                         }
                                     }
                                 }
+                                Carga.remove(p);
+                                Carga.add(Carga.indexOf(p2), p);
                             }
                         }
                     } else {

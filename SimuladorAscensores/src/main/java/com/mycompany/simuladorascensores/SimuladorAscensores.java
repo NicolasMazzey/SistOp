@@ -6,16 +6,26 @@ import java.util.PriorityQueue;
 public class SimuladorAscensores {
     static volatile int maxPisos;
 
-    static volatile PriorityQueue<Ascensor> listaDeAscensores;    //hacer un comparador para la cola en funcion a la cantidad de personas.
-
+    static volatile PriorityQueue<Ascensor> listaDeAscensores;    
+    
     public static void main(String[] args) {
+        
+        ComparadorAscensores CA = new ComparadorAscensores();
+        listaDeAscensores = new PriorityQueue<>(CA);
 
+       /*Ascensor a1 = new Ascensor("1");
+        Ascensor a2 = new Ascensor("2");
+        listaDeAscensores.add(a1);
+        listaDeAscensores.add(a2);             
+        
+        System.out.println(listaDeAscensores);*/
+        
         // Primer archivo
         System.out.println("---------------");
         System.out.println("Primer archivo");
         System.out.println("---------------");
 
-        String[] palabras = ManejadorDeTexto.leerArchivo("/Users/jose/Documents/GitHub/SistOp/SimuladorAscensores/src/main/java/com/mycompany/simuladorascensores/instrucciones.txt");
+        String[] palabras = ManejadorDeTexto.leerArchivo("src/main/java/com/mycompany/simuladorascensores/instrucciones.txt");
         String Cant_ascensores = palabras[0];
         String Cant_pisos = palabras[1];
         String espacio = palabras[2];
