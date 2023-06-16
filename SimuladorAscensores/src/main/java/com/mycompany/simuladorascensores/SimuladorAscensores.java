@@ -8,7 +8,7 @@ public class SimuladorAscensores {
 
     static volatile int maxPisos;
     static volatile int ascensores_disponibles;
-    static volatile int Momento = 10;
+    static volatile int Momento = 9;
     static volatile PriorityQueue<Ascensor> listaDeAscensores;
     static volatile PriorityQueue<Persona> cola_espera;
 
@@ -36,6 +36,7 @@ public class SimuladorAscensores {
         //va contando los momentos cada 1 seg "arbitrario"
         for (int i = 0; i < 5; i++) {
             Momento += 1;
+            System.out.println("momento " + Momento);
             Thread.sleep(1000);
         }
 
