@@ -2,29 +2,25 @@ package com.mycompany.simuladorascensores;
 
 import static com.mycompany.simuladorascensores.SimuladorAscensores.SemaforoAscensor;
 import java.util.Iterator;
-import java.util.PriorityQueue;
 
 public class PlanificadorDelPiso extends Thread {
 
-    PriorityQueue<Persona> cola_espera;
-    int piso_planificando;
+    
     String numero;
 
-    PlanificadorDelPiso(String numero, int piso) {
-        ComparadorPlanificador CP = new ComparadorPlanificador();
-        this.cola_espera = new PriorityQueue<>(CP);
-        this.piso_planificando = piso;
+    PlanificadorDelPiso(String numero){ //, int piso) {
+        
         this.numero = numero;
     }
 
     @Override
     public void run() {
         while (true) {
-            if (!cola_espera.isEmpty() && cola_espera.peek().momento <= SimuladorAscensores.Momento) {
+            if (!SimuladorAscensores.cola_espera.isEmpty() && SimuladorAscensores.cola_espera.peek().momento <= SimuladorAscensores.Momento) {
                 try {
                     SemaforoAscensor.acquire();
                     boolean salir = false;
-                    Persona p = cola_espera.poll();
+                    Persona p = SimuladorAscensores.cola_espera.poll();
                     Ascensor AElejido = SimuladorAscensores.listaDeAscensores.peek();
 
                     if ((AElejido.cantPersonas == 5) || (AElejido.peso > (500 - p.peso))) {
@@ -52,12 +48,12 @@ public class PlanificadorDelPiso extends Thread {
                         AElejido.peso += p.peso;
                         AElejido.cantPersonas += 1;
 
-                        if (AElejido.Carga.size() > 1) {
-                            Persona p2 = AElejido.Carga.get(2);
+                        if (AElejido.cantPersonas > 1) {
+                            Persona p2 = AElejido.Carga.get(1);
                             boolean aca = false;
                             if (AElejido.mirando_arriba) {       //esto es lo mismo que en el ascensor pero la persona p se esta
                                 boolean mayorPA = true;          //cargando en vez de bajandose.
-                                while (AElejido.Carga.get(AElejido.Carga.indexOf(p2)) != null && !aca && mayorPA) {
+                                while (p2 != null && !aca && mayorPA) {   
                                     if (p2.enAscensor) {
                                         if (p2.destino >= AElejido.pisoActual) {
                                             if (p.inicio > p2.destino) {
@@ -71,7 +67,11 @@ public class PlanificadorDelPiso extends Thread {
                                     } else {
                                         if (p2.inicio >= AElejido.pisoActual) {
                                             if (p.inicio > p2.inicio) {
-                                                p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                                if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2)+1) == -1){
+                                                    p2 = null;
+                                                } else {
+                                                    p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                                }
                                             } else {
                                                 aca = true;
                                             }
@@ -80,16 +80,24 @@ public class PlanificadorDelPiso extends Thread {
                                         }
                                     }
                                 }
-                                while (AElejido.Carga.get(AElejido.Carga.indexOf(p2)) != null && !aca && !mayorPA) {
+                                while (p2 != null && !aca && !mayorPA) {
                                     if (p2.enAscensor) {
                                         if (p.inicio > p2.destino) {
-                                            p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
+                                                p2 = null;
+                                            } else {
+                                                p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            }
                                         } else {
                                             aca = true;
                                         }
                                     } else {
                                         if (p.inicio > p2.inicio) {
-                                            p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
+                                                p2 = null;
+                                            } else {
+                                                p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            }
                                         } else {
                                             aca = true;
                                         }
@@ -97,11 +105,15 @@ public class PlanificadorDelPiso extends Thread {
                                 }
                             } else {
                                 boolean menorPA = true;
-                                while (AElejido.Carga.get(AElejido.Carga.indexOf(p2)) != null && !aca && menorPA) {
+                                while (p2 != null && !aca && menorPA) {
                                     if (p2.enAscensor) {
                                         if (p2.destino <= AElejido.pisoActual) {
                                             if (p.inicio < p2.destino) {
-                                                p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                                if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
+                                                    p2 = null;
+                                                } else {
+                                                    p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                                }
                                             } else {
                                                 aca = true;
                                             }
@@ -111,7 +123,11 @@ public class PlanificadorDelPiso extends Thread {
                                     } else {
                                         if (p2.inicio <= AElejido.pisoActual) {
                                             if (p.inicio < p2.inicio) {
-                                                p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                                if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
+                                                    p2 = null;
+                                                } else {
+                                                    p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                                }
                                             } else {
                                                 aca = true;
                                             }
@@ -120,16 +136,24 @@ public class PlanificadorDelPiso extends Thread {
                                         }
                                     }
                                 }
-                                while (AElejido.Carga.get(AElejido.Carga.indexOf(p2)) != null && !aca && !menorPA) {
+                                while (p2 != null && !aca && !menorPA) {
                                     if (p2.enAscensor) {
                                         if (p.inicio < p2.destino) {
-                                            p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
+                                                p2 = null;
+                                            } else {
+                                                p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            }
                                         } else {
                                             aca = true;
                                         }
                                     } else {
                                         if (p.inicio < p2.inicio) {
-                                            p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
+                                                p2 = null;
+                                            } else {
+                                                p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
+                                            }
                                         } else {
                                             aca = true;
                                         }
@@ -137,12 +161,19 @@ public class PlanificadorDelPiso extends Thread {
                                 }
                             }
                             AElejido.Carga.remove(p);
-                            AElejido.Carga.add(AElejido.Carga.indexOf(p2), p);
+                            if (p2 != null){
+                                AElejido.Carga.add(AElejido.Carga.indexOf(p2), p);
+                            } else {
+                                AElejido.Carga.addLast(p);
+                            }
                         }
                         System.out.println("Planificador " + this.numero + " asgino cargar a " + p.nombre
                                 + " al Ascensor " + AElejido.numero + " en el piso " + p.inicio);
                     }
+                    SimuladorAscensores.listaDeAscensores.remove(AElejido);
+                    SimuladorAscensores.listaDeAscensores.add(AElejido);
                     SemaforoAscensor.release();
+                    Thread.sleep(1);
                 } catch (InterruptedException ex) {
                
                 }

@@ -32,11 +32,18 @@ public class Ascensor extends Thread {
                 if (!Carga.isEmpty()) {
                     //proceso Activo
                     Persona primero = Carga.peek();
-                    if (primero.destino > pisoActual) {
+                    int PisoSiguiente;
+                    if(primero.enAscensor){
+                        PisoSiguiente = primero.destino;
+                    } else {
+                        PisoSiguiente = primero.inicio;
+                    }
+                    if (PisoSiguiente > pisoActual) {
                         this.mirando_arriba = true;
                         pisoActual += 1;
+                        System.out.println("Ascensor " + this.numero + " sube 1 piso al " + this.pisoActual);
                     } else {
-                        if (primero.destino == pisoActual) {
+                        if (PisoSiguiente == pisoActual) {
                             if (primero.enAscensor){
                                 cantPersonas -= 1;
                                 peso = peso - primero.peso;
@@ -47,17 +54,21 @@ public class Ascensor extends Thread {
                                 System.out.println("Sube " + primero.nombre + " en el piso " + this.pisoActual +
                                         " del Ascensor " + this.numero);
                                 Carga.peek().enAscensor = true;
-                                if (Carga.size() > 1) {
-                                    Persona p = Carga.get(1);
-                                    Persona p2 = Carga.get(2);
+                                if (cantPersonas > 1) {
+                                    Persona p = Carga.get(0);
+                                    Persona p2 = Carga.get(1);
                                     boolean aca = false;
                                     if (mirando_arriba) {
                                         boolean mayorPA = true;
-                                        while (Carga.get(Carga.indexOf(p2)) != null && !aca && mayorPA) {
+                                        while (p2 != null && !aca && mayorPA) {
                                             if (p2.enAscensor) {
                                                 if (p2.destino >= pisoActual){
                                                     if (p.destino > p2.destino) {
-                                                        p2 = Carga.get(Carga.indexOf(p2)+1);
+                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                            p2 = null;
+                                                        } else {
+                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        }
                                                     } else {
                                                         aca = true;
                                                     }
@@ -67,7 +78,11 @@ public class Ascensor extends Thread {
                                             } else {
                                                 if (p2.inicio >= pisoActual){
                                                     if (p.destino > p2.inicio) {
-                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                            p2 = null;
+                                                        } else {
+                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        }
                                                     } else {
                                                         aca = true;
                                                     }
@@ -76,16 +91,24 @@ public class Ascensor extends Thread {
                                                 }
                                             }
                                         }
-                                        while (Carga.get(Carga.indexOf(p2)) != null && !aca && !mayorPA) {
+                                        while (p2 != null && !aca && !mayorPA) {
                                             if (p2.enAscensor) {
                                                 if (p.destino > p2.destino) {
-                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        p2 = null;
+                                                    } else {
+                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    }
                                                 } else {
                                                     aca = true;
                                                 }
                                             } else {
                                                 if (p.destino > p2.inicio) {
-                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        p2 = null;
+                                                    } else {
+                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    }
                                                 } else {
                                                     aca = true;
                                                 }
@@ -93,11 +116,15 @@ public class Ascensor extends Thread {
                                         }
                                     } else {
                                         boolean menorPA = true;
-                                        while (Carga.get(Carga.indexOf(p2)) != null && !aca && menorPA) {
+                                        while (p2 != null && !aca && menorPA) {
                                             if (p2.enAscensor) {
                                                 if (p2.destino <= pisoActual){
                                                     if (p.destino < p2.destino) {
-                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                            p2 = null;
+                                                        } else {
+                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        }
                                                     } else {
                                                         aca = true;
                                                     }
@@ -107,7 +134,11 @@ public class Ascensor extends Thread {
                                             } else {
                                                 if (p2.inicio <= pisoActual){
                                                     if (p.destino < p2.inicio) {
-                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                            p2 = null;
+                                                        } else {
+                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        }
                                                     } else {
                                                         aca = true;
                                                     }
@@ -116,16 +147,24 @@ public class Ascensor extends Thread {
                                                 }
                                             }
                                         }
-                                        while (Carga.get(Carga.indexOf(p2)) != null && !aca && !menorPA) {
+                                        while (p2 != null && !aca && !menorPA) {
                                             if (p2.enAscensor) {
                                                 if (p.destino < p2.destino) {
-                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        p2 = null;
+                                                    } else {
+                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    }
                                                 } else {
                                                     aca = true;
                                                 }
                                             } else {
                                                 if (p.destino < p2.inicio) {
-                                                    p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        p2 = null;
+                                                    } else {
+                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                    }
                                                 } else {
                                                     aca = true;
                                                 }
@@ -133,27 +172,36 @@ public class Ascensor extends Thread {
                                         }
                                     }
                                     Carga.remove(p);
-                                    Carga.add(Carga.indexOf(p2), p);
+                                    if (p2 != null) {
+                                        Carga.add(Carga.indexOf(p2), p);
+                                    } else {
+                                        Carga.addLast(p);
+                                    }
                                 }
                             }
                         } else {
                             this.mirando_arriba = false;
                             pisoActual -= 1;
+                            System.out.println("Ascensor " + this.numero + " baja 1 piso al " + this.pisoActual);
                         }
                     }
                     SemaforoAscensor.release();
+                    Thread.sleep(10);
                 } else {
                     //proceso de inactividad
                     if(pisoActual != 0 && pisoActual != maxPisos){
                         if (((maxPisos - pisoActual) < (maxPisos/2))){
-                            pisoActual -= 1;
-                            System.out.println("Ascensor " + this.numero + " baja un piso por proceso inactivo");
-                        } else {
                             pisoActual += 1;
-                            System.out.println("Ascensor " + this.numero + " sube un piso por proceso inactivo");
+                            System.out.println("Ascensor " + this.numero + " sube un piso por proceso inactivo al piso "
+                                                + this.pisoActual);
+                        } else {
+                            pisoActual -= 1;
+                            System.out.println("Ascensor " + this.numero + " baja un piso por proceso inactivo al piso "
+                                                + this.pisoActual);
                         }
                     }
                     SemaforoAscensor.release();
+                    Thread.sleep(1);
                 }
             } catch (InterruptedException ex) {
             

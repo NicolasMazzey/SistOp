@@ -7,11 +7,12 @@ import java.util.concurrent.Semaphore;
 public class SimuladorAscensores {
 
     static volatile int maxPisos;
-    static volatile int Momento = 0;
+    static volatile int ascensores_disponibles;
+    static volatile int Momento = 10;
     static volatile PriorityQueue<Ascensor> listaDeAscensores;
+    static volatile PriorityQueue<Persona> cola_espera;
 
     static Semaphore SemaforoAscensor = new Semaphore(1);
-    //static Semaphore SemaforoPlanificador = new Semaphore(1);
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -19,36 +20,49 @@ public class SimuladorAscensores {
         listaDeAscensores = new PriorityQueue<>(CA);
         List<Persona> lista_personas = new ArrayList<>(); // Lista para almacenar las personas creadas
         lista_personas = CargarInstrucciones();
-
-        /*
-        Ascensor a1 = new Ascensor("1");
-        Ascensor a2 = new Ascensor("2");
-        listaDeAscensores.add(a1);
-        listaDeAscensores.add(a2);             
         
-        System.out.println(listaDeAscensores);
-         */
- /*
-                //Despues de que este todo inicializado y corriendo
-                //va contando los momentos cada 1 seg "arbitrario"
-                for (int i = 0; i < 5; i++) {
-                    Momento += 1;
-                    Thread.sleep(1000);
-                }
-         */
+        
+        for(int i = 1; i <= ascensores_disponibles ; i++){
+            Ascensor a;
+            a = new Ascensor(Integer.toString(i));
+            listaDeAscensores.add(a);
+            new Thread(a, Integer.toString(i+1)).start();
+            System.out.println("se creo el Ascensor numero " + i);
+        }
+        
+        new Thread(new PlanificadorDelPiso("1"), "1").start();
+        
+        //Despues de que este todo inicializado y corriendo
+        //va contando los momentos cada 1 seg "arbitrario"
+        for (int i = 0; i < 5; i++) {
+            Momento += 1;
+            Thread.sleep(1000);
+        }
+
+        
     }//CierreMAIN
 
     public static List<Persona> CargarInstrucciones() {
         List<Persona> lista_personas_temp = new ArrayList<>(); // Lista para almacenar las personas creadas
+        
+        ComparadorPlanificador CP = new ComparadorPlanificador();
+        cola_espera = new PriorityQueue<>(CP);
+        
+        
+        // Primer archivo
+        System.out.println("---------------");
+        System.out.println("Primer archivo");
+        System.out.println("---------------");
 
         String[] palabras = ManejadorDeTexto.leerArchivo("src/main/java/com/mycompany/simuladorascensores/instrucciones.txt");
         String Cant_ascensores = palabras[0];
         String Cant_pisos = palabras[1];
         String espacio = palabras[2];
         String instrucciones = palabras[3];
-        int ascensores_disponibles;
-        int pisos_edificio;
+        //int pisos_edificio;
 
+        
+        List<Persona> lista_personas = new ArrayList<>(); // Lista para almacenar las personas creadas
         for (String s : palabras) {
             if (s == Cant_ascensores) {
                 char identificador = ':';
@@ -75,7 +89,7 @@ public class SimuladorAscensores {
                 if (index != -1) {
                     String charactersAfter = s.substring(index + 1); // Extrae los caracteres posteriores
                     //System.out.println("Caracteres posteriores a '" + identificador + "' son: " + charactersAfter);
-                    pisos_edificio = Integer.parseInt(charactersAfter);
+                    maxPisos = Integer.parseInt(charactersAfter);
                     //pisos_edificio = pisos_edificio + 1;
                     //System.out.println(pisos_edificio);
 
@@ -115,6 +129,9 @@ public class SimuladorAscensores {
                         // Agregar la persona a la lista
                         lista_personas_temp.add(person);
                     }
+                    Persona person = new Persona(nombre_persona, piso_destino, piso_origen, peso_persona, tiempo);
+                    // Agregar la persona a la lista
+                    cola_espera.add(person);
                 }
                 scanner.close(); // Cerrar el Scanner
             }
