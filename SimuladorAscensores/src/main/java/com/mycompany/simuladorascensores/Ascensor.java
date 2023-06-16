@@ -186,7 +186,7 @@ public class Ascensor extends Thread {
                         }
                     }
                     SemaforoAscensor.release();
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } else {
                     //proceso de inactividad
                     if(pisoActual != 0 && pisoActual != maxPisos){
