@@ -186,17 +186,17 @@ public class Ascensor extends Thread {
                         }
                     }
                     SemaforoAscensor.release();
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } else {
                     //proceso de inactividad
                     if(pisoActual != 0 && pisoActual != maxPisos){
-                        if (((maxPisos - pisoActual) < (maxPisos/2))){
-                            pisoActual += 1;
-                            System.out.println("Ascensor " + this.numero + " sube un piso por proceso inactivo al piso "
-                                                + this.pisoActual);
-                        } else {
+                        if (((maxPisos - pisoActual) > (maxPisos/2))){
                             pisoActual -= 1;
                             System.out.println("Ascensor " + this.numero + " baja un piso por proceso inactivo al piso "
+                                                + this.pisoActual);
+                        } else {
+                            pisoActual += 1;
+                            System.out.println("Ascensor " + this.numero + " sube un piso por proceso inactivo al piso "
                                                 + this.pisoActual);
                         }
                     }
