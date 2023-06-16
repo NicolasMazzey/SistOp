@@ -19,8 +19,6 @@ public class SimuladorAscensores {
         listaDeAscensores = new PriorityQueue<>(CA);
         List<Persona> lista_personas = new ArrayList<>(); // Lista para almacenar las personas creadas
         lista_personas = CargarInstrucciones();
-        
-        
 
         /*
         Ascensor a1 = new Ascensor("1");
@@ -30,8 +28,7 @@ public class SimuladorAscensores {
         
         System.out.println(listaDeAscensores);
          */
-        
-        /*
+ /*
                 //Despues de que este todo inicializado y corriendo
                 //va contando los momentos cada 1 seg "arbitrario"
                 for (int i = 0; i < 5; i++) {
@@ -113,13 +110,13 @@ public class SimuladorAscensores {
                     //String data = scanner.next();
                     //System.out.println(data);
 
-                    Persona person = new Persona(nombre_persona, piso_destino, piso_origen, peso_persona, tiempo);
-                    // Agregar la persona a la lista
-                    lista_personas_temp.add(person);
+                    if ((piso_origen <= 10 && 0 <= piso_origen) && (piso_destino <= 10 && 0 <= piso_destino)) {
+                        Persona person = new Persona(nombre_persona, piso_destino, piso_origen, peso_persona, tiempo);
+                        // Agregar la persona a la lista
+                        lista_personas_temp.add(person);
+                    }
                 }
-
                 scanner.close(); // Cerrar el Scanner
-
             }
         }
 
