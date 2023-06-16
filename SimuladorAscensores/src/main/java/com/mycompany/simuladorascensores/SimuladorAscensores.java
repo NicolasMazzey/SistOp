@@ -27,7 +27,7 @@ public class SimuladorAscensores {
             a = new Ascensor(Integer.toString(i));
             listaDeAscensores.add(a);
             new Thread(a, Integer.toString(i+1)).start();
-            System.out.println("se creo el Ascensor numero " + i);
+            System.out.println("Se creo el Ascensor numero " + i);
         }
         
         new Thread(new PlanificadorDelPiso("1"), "1").start();
@@ -50,10 +50,6 @@ public class SimuladorAscensores {
         
         
         // Primer archivo
-        System.out.println("---------------");
-        System.out.println("Primer archivo");
-        System.out.println("---------------");
-
         String[] palabras = ManejadorDeTexto.leerArchivo("src/main/java/com/mycompany/simuladorascensores/instrucciones.txt");
         String Cant_ascensores = palabras[0];
         String Cant_pisos = palabras[1];
@@ -61,7 +57,6 @@ public class SimuladorAscensores {
         String instrucciones = palabras[3];
         //int pisos_edificio;
 
-        
         List<Persona> lista_personas = new ArrayList<>(); // Lista para almacenar las personas creadas
         for (String s : palabras) {
             if (s == Cant_ascensores) {
@@ -136,11 +131,12 @@ public class SimuladorAscensores {
                 scanner.close(); // Cerrar el Scanner
             }
         }
-
+        /*
         // Imprimir los elementos de la lista
         for (Persona persona : lista_personas_temp) {
             System.out.println(persona.getNombre() + persona.getInicio() + persona.getDestino() + persona.getPeso() + persona.getMomento());
         }
+        */
 
         return lista_personas_temp;
     }
