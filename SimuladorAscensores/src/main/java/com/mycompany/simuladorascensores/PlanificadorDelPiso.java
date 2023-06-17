@@ -22,6 +22,11 @@ public class PlanificadorDelPiso extends Thread {
                     boolean salir = false;
                     Persona p = SimuladorAscensores.cola_espera.poll();
                     Ascensor AElejido = SimuladorAscensores.listaDeAscensores.peek();
+                    Ascensor AElejido2;
+                    
+                    
+                    Iterator<Ascensor> iterator2 = SimuladorAscensores.listaDeAscensores.iterator();
+                    
 
                     if ((AElejido.cantPersonas == 5) || (AElejido.peso > (500 - p.peso))) {
 
@@ -30,8 +35,27 @@ public class PlanificadorDelPiso extends Thread {
 
                         while (iterator.hasNext() && !encontro) {
                             AElejido = iterator.next();
+                            AElejido2 = iterator2.next();
 
                             if ((AElejido.cantPersonas == 5) || (AElejido.peso > (500 - p.peso))) {
+                                
+                                /*while(iterator.hasNext()) {
+                                    if (AElejido.pisoActual != p.inicio) {
+                                        System.out.println(AElejido.mirando_arriba);
+                                        System.out.println(p.inicio > AElejido.pisoActual);
+                                        if (AElejido.mirando_arriba != (p.inicio > AElejido.pisoActual)) {
+                                            if ((AElejido2.cantPersonas == AElejido.cantPersonas) || (AElejido2.peso > (500 - p.peso))) {
+                                                System.out.println(AElejido2.mirando_arriba);
+                                                System.out.println(p.inicio > AElejido2.pisoActual);
+                                                if (AElejido2.mirando_arriba == (p.inicio > AElejido2.pisoActual)) {
+                                                    AElejido = AElejido2;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    encontro = true;
+                                }*/
+                            } else {
                                 encontro = true;
                             }
                         }
@@ -41,6 +65,30 @@ public class PlanificadorDelPiso extends Thread {
                         }
 
                     }
+                    
+                    boolean encontro2 = false;
+                    
+                    while(iterator2.hasNext() && !encontro2) {
+                        AElejido2 = iterator2.next();
+                        if((AElejido2.cantPersonas > AElejido.cantPersonas)){
+                            encontro2 = true;
+                        } else {
+                            if (AElejido.pisoActual != p.inicio) {
+                                //System.out.println(AElejido.mirando_arriba);
+                                //System.out.println(p.inicio > AElejido.pisoActual);
+                                if (AElejido.mirando_arriba != (p.inicio > AElejido.pisoActual)) {
+                                    if ((AElejido2.cantPersonas == AElejido.cantPersonas) || (AElejido2.peso > (500 - p.peso))) {
+                                        //System.out.println(AElejido2.mirando_arriba);
+                                        //System.out.println(p.inicio > AElejido2.pisoActual);
+                                        if (AElejido2.mirando_arriba == (p.inicio > AElejido2.pisoActual)) {
+                                            AElejido = AElejido2;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
 
                     if (!salir) {  //es como un break para no complicarme la vida
 
