@@ -36,7 +36,7 @@ public class SimuladorAscensores {
         //va contando los momentos cada 1 seg "arbitrario"
         for (int i = 0; i < 5; i++) {
             Momento += 1;
-            System.out.println("momento " + Momento);
+            //System.out.println("momento " + Momento);
             Thread.sleep(1000);
         }
 
