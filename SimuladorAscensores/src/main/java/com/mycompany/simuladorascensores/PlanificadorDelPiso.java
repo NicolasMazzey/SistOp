@@ -74,17 +74,20 @@ public class PlanificadorDelPiso extends Thread {
                             encontro2 = true;
                         } else {
                             if (AElejido.pisoActual != p.inicio) {
-                                //System.out.println(AElejido.mirando_arriba);
-                                //System.out.println(p.inicio > AElejido.pisoActual);
-                                if (AElejido.mirando_arriba != (p.inicio > AElejido.pisoActual)) {
-                                    if ((AElejido2.cantPersonas == AElejido.cantPersonas) || (AElejido2.peso > (500 - p.peso))) {
-                                        //System.out.println(AElejido2.mirando_arriba);
-                                        //System.out.println(p.inicio > AElejido2.pisoActual);
-                                        if (AElejido2.mirando_arriba == (p.inicio > AElejido2.pisoActual)) {
-                                            AElejido = AElejido2;
+                                if(AElejido2.pisoActual == p.inicio){
+                                    AElejido = AElejido2;
+                                    encontro2 = true;
+                                } else {
+                                    if (AElejido.mirando_arriba != (p.inicio > AElejido.pisoActual)) {
+                                        if ((AElejido2.cantPersonas == AElejido.cantPersonas) || (AElejido2.peso > (500 - p.peso))) {
+                                            if (AElejido2.mirando_arriba == (p.inicio > AElejido2.pisoActual)) {
+                                                AElejido = AElejido2;
+                                            }
                                         }
-                                    }
+                                    } 
                                 }
+                                
+                                
                             }
                         }
                     }
