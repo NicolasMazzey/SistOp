@@ -62,7 +62,7 @@ public class Ascensor extends Thread {
                                         boolean mayorPA = true;
                                         while (p2 != null && !aca && mayorPA) {
                                             if (p2.enAscensor) {
-                                                if (p2.destino >= pisoActual){
+                                                if (p2.destino >= pisoActual && p.inicio > pisoActual){
                                                     if (p.destino > p2.destino) {
                                                         if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                             p2 = null;
@@ -76,7 +76,7 @@ public class Ascensor extends Thread {
                                                     mayorPA = false;
                                                 }
                                             } else {
-                                                if (p2.inicio >= pisoActual){
+                                                if (p2.inicio >= pisoActual && p.inicio >= pisoActual){
                                                     if (p.destino > p2.inicio) {
                                                         if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                             p2 = null;
@@ -93,7 +93,7 @@ public class Ascensor extends Thread {
                                         }
                                         while (p2 != null && !aca && !mayorPA) {
                                             if (p2.enAscensor) {
-                                                if (p.destino > p2.destino) {
+                                                if (p.destino < p2.destino) {
                                                     if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                         p2 = null;
                                                     } else {
@@ -103,7 +103,7 @@ public class Ascensor extends Thread {
                                                     aca = true;
                                                 }
                                             } else {
-                                                if (p.destino > p2.inicio) {
+                                                if (p.destino < p2.inicio) {
                                                     if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                         p2 = null;
                                                     } else {
@@ -118,7 +118,7 @@ public class Ascensor extends Thread {
                                         boolean menorPA = true;
                                         while (p2 != null && !aca && menorPA) {
                                             if (p2.enAscensor) {
-                                                if (p2.destino <= pisoActual){
+                                                if (p2.destino <= pisoActual && p.inicio <= pisoActual){
                                                     if (p.destino < p2.destino) {
                                                         if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                             p2 = null;
@@ -132,7 +132,7 @@ public class Ascensor extends Thread {
                                                     menorPA = false;
                                                 }
                                             } else {
-                                                if (p2.inicio <= pisoActual){
+                                                if (p2.inicio <= pisoActual && p.inicio <= pisoActual){
                                                     if (p.destino < p2.inicio) {
                                                         if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                             p2 = null;
@@ -149,7 +149,7 @@ public class Ascensor extends Thread {
                                         }
                                         while (p2 != null && !aca && !menorPA) {
                                             if (p2.enAscensor) {
-                                                if (p.destino < p2.destino) {
+                                                if (p.destino > p2.destino) {
                                                     if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                         p2 = null;
                                                     } else {
@@ -159,7 +159,7 @@ public class Ascensor extends Thread {
                                                     aca = true;
                                                 }
                                             } else {
-                                                if (p.destino < p2.inicio) {
+                                                if (p.destino >p2.inicio) {
                                                     if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
                                                         p2 = null;
                                                     } else {

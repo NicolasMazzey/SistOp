@@ -55,7 +55,7 @@ public class PlanificadorDelPiso extends Thread {
                                 boolean mayorPA = true;          //cargando en vez de bajandose.
                                 while (p2 != null && !aca && mayorPA) {   
                                     if (p2.enAscensor) {
-                                        if (p2.destino >= AElejido.pisoActual) {
+                                        if (p2.destino >= AElejido.pisoActual && p.inicio >=AElejido.pisoActual) {
                                             if (p.inicio > p2.destino) {
                                                 p2 = AElejido.Carga.get(AElejido.Carga.indexOf(p2) + 1);
                                             } else {
@@ -65,7 +65,7 @@ public class PlanificadorDelPiso extends Thread {
                                             mayorPA = false;
                                         }
                                     } else {
-                                        if (p2.inicio >= AElejido.pisoActual) {
+                                        if (p2.inicio >= AElejido.pisoActual && p.inicio >=AElejido.pisoActual) {
                                             if (p.inicio > p2.inicio) {
                                                 if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2)+1) == -1){
                                                     p2 = null;
@@ -82,7 +82,7 @@ public class PlanificadorDelPiso extends Thread {
                                 }
                                 while (p2 != null && !aca && !mayorPA) {
                                     if (p2.enAscensor) {
-                                        if (p.inicio > p2.destino) {
+                                        if (p.inicio < p2.destino) {
                                             if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
                                                 p2 = null;
                                             } else {
@@ -92,7 +92,7 @@ public class PlanificadorDelPiso extends Thread {
                                             aca = true;
                                         }
                                     } else {
-                                        if (p.inicio > p2.inicio) {
+                                        if (p.inicio < p2.inicio) {
                                             if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
                                                 p2 = null;
                                             } else {
@@ -107,7 +107,7 @@ public class PlanificadorDelPiso extends Thread {
                                 boolean menorPA = true;
                                 while (p2 != null && !aca && menorPA) {
                                     if (p2.enAscensor) {
-                                        if (p2.destino <= AElejido.pisoActual) {
+                                        if (p2.destino <= AElejido.pisoActual && p.inicio <=AElejido.pisoActual) {
                                             if (p.inicio < p2.destino) {
                                                 if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
                                                     p2 = null;
@@ -121,7 +121,7 @@ public class PlanificadorDelPiso extends Thread {
                                             menorPA = false;
                                         }
                                     } else {
-                                        if (p2.inicio <= AElejido.pisoActual) {
+                                        if (p2.inicio <= AElejido.pisoActual && p.inicio <=AElejido.pisoActual) {
                                             if (p.inicio < p2.inicio) {
                                                 if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
                                                     p2 = null;
@@ -138,7 +138,7 @@ public class PlanificadorDelPiso extends Thread {
                                 }
                                 while (p2 != null && !aca && !menorPA) {
                                     if (p2.enAscensor) {
-                                        if (p.inicio < p2.destino) {
+                                        if (p.inicio > p2.destino) {
                                             if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
                                                 p2 = null;
                                             } else {
@@ -148,7 +148,7 @@ public class PlanificadorDelPiso extends Thread {
                                             aca = true;
                                         }
                                     } else {
-                                        if (p.inicio < p2.inicio) {
+                                        if (p.inicio > p2.inicio) {
                                             if (AElejido.Carga.indexOf(AElejido.Carga.indexOf(p2) + 1) == -1) {
                                                 p2 = null;
                                             } else {
