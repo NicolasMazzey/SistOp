@@ -4,6 +4,7 @@ package com.mycompany.simuladorascensores;
 
 import static com.mycompany.simuladorascensores.SimuladorAscensores.SemaforoAscensor;
 import static com.mycompany.simuladorascensores.SimuladorAscensores.maxPisos;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -55,21 +56,22 @@ public class Ascensor extends Thread {
                                         " del Ascensor " + this.numero);
                                 Carga.peek().enAscensor = true;
                                 if (cantPersonas > 1) {
-                                    Persona p = Carga.get(0);
-                                    Persona p2 = Carga.get(1);
+                                    Iterator<Persona> iterador = Carga.iterator();
+                                    Persona p = iterador.next();
+                                    Persona p2 = iterador.next();
                                     boolean aca = false;
-                                    if (mirando_arriba) {
+                                    if (mirando_arriba) {                    
                                         boolean mayorPA = true;
                                         while (p2 != null && !aca && mayorPA) {
                                             if (p2.enAscensor) {
                                                 if (p2.destino >= pisoActual && p.destino > pisoActual){
                                                     if (p.destino > p2.destino) {
-                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        if (!iterador.hasNext()) {
                                                             p2 = null;
                                                         } else {
-                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                            p2 = iterador.next();
                                                         }
-                                                    } else {
+                                                   } else {
                                                         aca = true;
                                                     }
                                                 } else {
@@ -78,10 +80,10 @@ public class Ascensor extends Thread {
                                             } else {
                                                 if (p2.inicio >= pisoActual && p.destino >= pisoActual){
                                                     if (p.destino > p2.inicio) {
-                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        if (!iterador.hasNext()) {
                                                             p2 = null;
                                                         } else {
-                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                            p2 = iterador.next();
                                                         }
                                                     } else {
                                                         aca = true;
@@ -91,23 +93,23 @@ public class Ascensor extends Thread {
                                                 }
                                             }
                                         }
-                                        while (p2 != null && !aca && !mayorPA) {
+                                        while (p2 != null && !aca && !mayorPA) {    //   6/0/9 5
                                             if (p2.enAscensor) {
                                                 if (p.destino < p2.destino) {
-                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                    if (!iterador.hasNext()) {
                                                         p2 = null;
                                                     } else {
-                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        p2 = iterador.next();
                                                     }
                                                 } else {
                                                     aca = true;
                                                 }
                                             } else {
                                                 if (p.destino < p2.inicio) {
-                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                    if (!iterador.hasNext()) {
                                                         p2 = null;
                                                     } else {
-                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        p2 = iterador.next();
                                                     }
                                                 } else {
                                                     aca = true;
@@ -120,10 +122,10 @@ public class Ascensor extends Thread {
                                             if (p2.enAscensor) {
                                                 if (p2.destino <= pisoActual && p.destino <= pisoActual){
                                                     if (p.destino < p2.destino) {
-                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        if (!iterador.hasNext()) {
                                                             p2 = null;
                                                         } else {
-                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                            p2 = iterador.next();
                                                         }
                                                     } else {
                                                         aca = true;
@@ -134,10 +136,10 @@ public class Ascensor extends Thread {
                                             } else {
                                                 if (p2.inicio <= pisoActual && p.destino <= pisoActual){
                                                     if (p.destino < p2.inicio) {
-                                                        if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                        if (!iterador.hasNext()) {
                                                             p2 = null;
                                                         } else {
-                                                            p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                            p2 = iterador.next();
                                                         }
                                                     } else {
                                                         aca = true;
@@ -150,20 +152,20 @@ public class Ascensor extends Thread {
                                         while (p2 != null && !aca && !menorPA) {
                                             if (p2.enAscensor) {
                                                 if (p.destino > p2.destino) {
-                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                    if (!iterador.hasNext()) {
                                                         p2 = null;
                                                     } else {
-                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        p2 = iterador.next();
                                                     }
                                                 } else {
                                                     aca = true;
                                                 }
                                             } else {
                                                 if (p.destino >p2.inicio) {
-                                                    if (Carga.indexOf(Carga.indexOf(p2) + 1) == -1) {
+                                                    if (!iterador.hasNext()) {
                                                         p2 = null;
                                                     } else {
-                                                        p2 = Carga.get(Carga.indexOf(p2) + 1);
+                                                        p2 = iterador.next();
                                                     }
                                                 } else {
                                                     aca = true;
