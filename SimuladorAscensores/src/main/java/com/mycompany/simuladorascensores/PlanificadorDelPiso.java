@@ -107,8 +107,8 @@ public class PlanificadorDelPiso extends Thread {
                         AElejido.peso += p.peso;
                         AElejido.cantPersonas += 1;
                         
-                        //System.out.println(AElejido.numero);
-                        //System.out.println(AElejido.cantPersonas);
+                        System.out.println(AElejido.numero);
+                        System.out.println(AElejido.cantPersonas);
                         
                         if (AElejido.cantPersonas > 1) {
                             Iterator<Persona> iterador = AElejido.Carga.iterator();
