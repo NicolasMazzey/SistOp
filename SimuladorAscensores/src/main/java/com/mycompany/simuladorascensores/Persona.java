@@ -15,6 +15,7 @@ public class Persona {
         this.inicio = Inicio;
         this.enAscensor = false;
         this.momento = Momento;
+        this.peso = peso;
     }
 
     // Métodos get

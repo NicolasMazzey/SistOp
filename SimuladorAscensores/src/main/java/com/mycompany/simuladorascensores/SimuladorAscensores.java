@@ -28,6 +28,7 @@ public class SimuladorAscensores {
             listaDeAscensores.add(a);
             new Thread(a, Integer.toString(i+1)).start();
             System.out.println("Se creo el Ascensor numero " + i);
+            System.out.println(a.cantPersonas);
         }
         
         new Thread(new PlanificadorDelPiso("1"), "1").start();
