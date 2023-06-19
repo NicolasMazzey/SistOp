@@ -237,7 +237,7 @@ public class PlanificadorDelPiso extends Thread {
                                 AElejido.Carga.addLast(p);
                             }
                         }
-                        System.out.println("Planificador " + this.numero + " asgino cargar a " + p.nombre
+                        System.out.println("Planificador " + this.numero + " asigno cargar a " + p.nombre
                                 + " al Ascensor " + AElejido.numero + " en el piso " + p.inicio);
                     }
                     SimuladorAscensores.listaDeAscensores.remove(AElejido);
