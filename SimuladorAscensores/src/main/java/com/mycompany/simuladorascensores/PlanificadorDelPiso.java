@@ -70,17 +70,17 @@ public class PlanificadorDelPiso extends Thread {
                     boolean encontro2 = false;
                     
                     while(iterator2.hasNext() && !encontro2) {
-                        System.out.println("LLegue");
+                        //System.out.println("LLegue");
                         AElejido2 = iterator2.next();
                         if((AElejido2.cantPersonas > AElejido.cantPersonas)){
-                            System.out.println("Salio por carga");
-                            System.out.println("A1 personas " + AElejido.cantPersonas + " numero " + AElejido.numero);
-                            System.out.println("A2 personas " + AElejido2.cantPersonas + " numero " + AElejido2.numero);
+                            //System.out.println("Salio por carga");
+                            //System.out.println("A1 personas " + AElejido.cantPersonas + " numero " + AElejido.numero);
+                            //System.out.println("A2 personas " + AElejido2.cantPersonas + " numero " + AElejido2.numero);
                             encontro2 = true;
                         } else {
                             if (AElejido.pisoActual != p.inicio) {
                                 if(AElejido2.pisoActual == p.inicio){
-                                    System.out.println("Salio por piso");
+                                    //System.out.println("Salio por piso");
                                     AElejido = AElejido2;
                                     encontro2 = true;
                                 } else {
@@ -88,7 +88,7 @@ public class PlanificadorDelPiso extends Thread {
                                         if ((AElejido2.cantPersonas == AElejido.cantPersonas) || (AElejido2.peso > (500 - p.peso))) {
                                             if (AElejido2.mirando_arriba == (p.inicio > AElejido2.pisoActual)) {
                                                 AElejido = AElejido2;
-                                                System.out.println("Cambio");
+                                                //System.out.println("Cambio");
                                             }
                                         }
                                     } 
@@ -106,8 +106,8 @@ public class PlanificadorDelPiso extends Thread {
                         AElejido.peso += p.peso;
                         AElejido.cantPersonas += 1;
                         
-                        System.out.println(AElejido.numero);
-                        System.out.println(AElejido.cantPersonas);
+                        //System.out.println(AElejido.numero);
+                        //System.out.println(AElejido.cantPersonas);
                         
                         if (AElejido.cantPersonas > 1) {
                             Iterator<Persona> iterador = AElejido.Carga.iterator();

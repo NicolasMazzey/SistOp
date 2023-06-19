@@ -50,10 +50,10 @@ public class Ascensor extends Thread {
                                 peso = peso - primero.peso;
                                 SimuladorAscensores.listaDeAscensores.remove(this);
                                 SimuladorAscensores.listaDeAscensores.add(this);
-                                System.out.println("");
+                                //System.out.println("");
                                 System.out.println("Baja " + primero.nombre + " en el piso " + this.pisoActual +
                                         " del Ascensor " + this.numero);
-                                System.out.println("");
+                                //System.out.println("");
                                 Carga.remove(primero);
                             } else {
                                 System.out.println("Sube " + primero.nombre + " en el piso " + this.pisoActual +
