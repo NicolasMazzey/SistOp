@@ -51,7 +51,7 @@ public class SimuladorAscensores {
         
         
         // Primer archivo
-        String[] palabras = ManejadorDeTexto.leerArchivo("src/main/java/com/mycompany/simuladorascensores/instrucciones.txt");
+        String[] palabras = ManejadorDeTexto.leerArchivo("src/main/java/com/mycompany/simuladorascensores/instrucciones2.txt");
         String Cant_ascensores = palabras[0];
         String Cant_pisos = palabras[1];
         String espacio = palabras[2];
