@@ -21,7 +21,7 @@ public class PlanificadorDelPiso extends Thread {
                     SemaforoAscensor.acquire();
                     //System.out.println("Planificador " + SimuladorAscensores.Momento + " " + SimuladorAscensores.cola_espera.peek().momento );
                     boolean salir = false;
-                    Persona p = SimuladorAscensores.cola_espera.poll();
+                    Persona p = SimuladorAscensores.cola_espera.peek();
                     Ascensor AElejido = SimuladorAscensores.listaDeAscensores.peek();
                     Ascensor AElejido2;
                     
@@ -62,7 +62,8 @@ public class PlanificadorDelPiso extends Thread {
                         }
 
                         if (!encontro) {
-                            System.out.println("salio");
+                            System.out.println("Planificador " + this.numero + " no puede planificar a "
+                                                + p.nombre + ", ascensores saturados");
                             salir = true;
                         }
 
@@ -103,12 +104,13 @@ public class PlanificadorDelPiso extends Thread {
 
                     if (!salir) {  //es como un break para no complicarme la vida
                         
+                        SimuladorAscensores.cola_espera.poll();
                         AElejido.Carga.addFirst(p);
                         AElejido.peso += p.peso;
                         AElejido.cantPersonas += 1;
                         
-                        System.out.println(AElejido.numero);
-                        System.out.println(AElejido.cantPersonas);
+                        //System.out.println(AElejido.numero);
+                        //System.out.println(AElejido.cantPersonas);
                         
                         if (AElejido.cantPersonas > 1) {
                             Iterator<Persona> iterador = AElejido.Carga.iterator();
