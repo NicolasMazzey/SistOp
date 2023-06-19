@@ -19,6 +19,7 @@ public class PlanificadorDelPiso extends Thread {
             if (!SimuladorAscensores.cola_espera.isEmpty() && SimuladorAscensores.cola_espera.peek().momento <= SimuladorAscensores.Momento) {
                 try {
                     SemaforoAscensor.acquire();
+                    //System.out.println("Planificador " + SimuladorAscensores.Momento + " " + SimuladorAscensores.cola_espera.peek().momento );
                     boolean salir = false;
                     Persona p = SimuladorAscensores.cola_espera.poll();
                     Ascensor AElejido = SimuladorAscensores.listaDeAscensores.peek();
