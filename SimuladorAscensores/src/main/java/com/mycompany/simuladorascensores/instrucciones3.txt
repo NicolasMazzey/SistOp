@@ -1,4 +1,4 @@
-CantidadDeAscensores:4
+CantidadDeAscensores:2
 CantidadDePisos:10
 
 |Nombre de persona|peso|piso_requerido|piso _pedido|tiempo|
